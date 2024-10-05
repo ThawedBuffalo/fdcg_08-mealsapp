@@ -1,6 +1,4 @@
-import 'package:fdgc08/data/dummy_data.dart';
 import 'package:fdgc08/screens/categories_page.dart';
-import 'package:fdgc08/screens/meals_page.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -24,7 +22,8 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
         theme: theme,
-        home: const MealsPage(meals: dummyMeals, title: 'whatever'),
+        //home: const MealsPage(meals: dummyMeals, title: 'whatever'),
+      home: const CategoriesPage(),
     );
   }
 }
