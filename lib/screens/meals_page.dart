@@ -1,6 +1,8 @@
 import 'package:fdgc08/models/meal.dart';
 import 'package:flutter/material.dart';
 
+import '../widgets/meal_item.dart';
+
 class MealsPage extends StatelessWidget {
   const MealsPage({super.key, required this.meals, required this.title});
 
@@ -10,21 +12,34 @@ class MealsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Widget content = Center(
-      child: Column(mainAxisSize: MainAxisSize.min,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
-          Text('Uh oh, no meals found!',
-            style: Theme.of(context).textTheme.headlineLarge!.copyWith(color: Theme.of(context).colorScheme.onSurface),),
-          const SizedBox(height: 16,),
-          Text('Select a different category...',
-            style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: Theme.of(context).colorScheme.onSurface),)
+          Text(
+            'Uh oh, no meals found!',
+            style: Theme.of(context)
+                .textTheme
+                .headlineLarge!
+                .copyWith(color: Theme.of(context).colorScheme.onSurface),
+          ),
+          const SizedBox(
+            height: 16,
+          ),
+          Text(
+            'Select a different category...',
+            style: Theme.of(context)
+                .textTheme
+                .bodyLarge!
+                .copyWith(color: Theme.of(context).colorScheme.onSurface),
+          )
         ],
       ),
     );
 
     if (meals.isNotEmpty) {
       content = ListView.builder(
-        itemCount: meals.length, itemBuilder: (ctx, index) => Text(
-              meals[index].title));
+          itemCount: meals.length,
+          itemBuilder: (ctx, index) => MealItem(meal: meals[index]));
     }
 
     return Scaffold(
