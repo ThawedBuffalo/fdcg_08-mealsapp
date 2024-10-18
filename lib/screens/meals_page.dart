@@ -1,4 +1,5 @@
 import 'package:fdgc08/models/meal.dart';
+import 'package:fdgc08/screens/meal_details_page.dart';
 import 'package:flutter/material.dart';
 
 import '../widgets/meal_item.dart';
@@ -8,6 +9,12 @@ class MealsPage extends StatelessWidget {
 
   final String title;
   final List<Meal> meals;
+
+  void selectMeal(BuildContext ctx, Meal meal) {
+    Navigator.of(ctx).push(MaterialPageRoute(
+      builder: (ctx) => MealDetailsPage(meal: meal),
+    ));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +46,12 @@ class MealsPage extends StatelessWidget {
     if (meals.isNotEmpty) {
       content = ListView.builder(
           itemCount: meals.length,
-          itemBuilder: (ctx, index) => MealItem(meal: meals[index]));
+          itemBuilder: (ctx, index) => MealItem(
+                meal: meals[index],
+                onSelectMeal: (meal) {
+                  selectMeal(ctx, meal);
+                },
+              ));
     }
 
     return Scaffold(
