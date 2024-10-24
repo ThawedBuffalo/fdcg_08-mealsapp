@@ -4,9 +4,11 @@ import 'package:fdgc08/widgets/category_grid_item.dart';
 import 'package:flutter/material.dart';
 
 import '../models/category.dart';
+import '../models/meal.dart';
 
 class CategoriesPage extends StatelessWidget {
-  const CategoriesPage({super.key});
+  const CategoriesPage({super.key, required this.onToggleFavorite});
+  final void Function(Meal meal) onToggleFavorite;
 
   void _selectCategory(BuildContext buildContext, Category category) {
     final filteredMeals = dummyMeals
@@ -19,6 +21,7 @@ class CategoriesPage extends StatelessWidget {
         builder: (ctx) => MealsPage(
           title: category.title,
           meals: filteredMeals,
+          onToggleFavorite: onToggleFavorite,
         ),
       ),
     );
