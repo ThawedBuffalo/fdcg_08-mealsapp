@@ -3,54 +3,23 @@ import 'package:fdgc08/providers/filters_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 
-class FiltersPage extends ConsumerStatefulWidget {
+class FiltersPage extends ConsumerWidget {
   const FiltersPage({super.key});
 
   @override
-  ConsumerState<FiltersPage> createState() => _FiltersPageState();
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    final activeFilters = ref.watch(filtersProvider);
 
-class _FiltersPageState extends ConsumerState<FiltersPage> {
-
-  bool _glutenFreeFilterSet = false;
-  bool _lactoseFreeFilterSet = false;
-  bool _vegetarianFilterSet = false;
-  bool _veganFilterSet = false;
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    final activeFilters = ref.read(filtersProvider);
-    _glutenFreeFilterSet = activeFilters[Filter.glutenFree]!;
-    _lactoseFreeFilterSet = activeFilters[Filter.lactoseFree]!;
-    _vegetarianFilterSet = activeFilters[Filter.vegetarian]!;
-    _veganFilterSet = activeFilters[Filter.vegan]!;
-  }
-
-  @override
-  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('Your Filters'),
       ),
-      body: WillPopScope(
-        onWillPop: () async {
-          ref.read(filtersProvider.notifier).setFilters({
-            Filter.glutenFree: _glutenFreeFilterSet,
-            Filter.lactoseFree: _lactoseFreeFilterSet,
-            Filter.vegan: _veganFilterSet,
-            Filter.vegetarian: _vegetarianFilterSet
-          });
-          return true;
-        },
-        child: Column(
+      body: Column(
           children: [
-            SwitchListTile(value: _glutenFreeFilterSet,
+            SwitchListTile(
+              value: activeFilters[Filter.glutenFree]!,
               onChanged: (isChecked) {
-              setState(() {
-                _glutenFreeFilterSet = isChecked;
-              });
+                ref.read(filtersProvider.notifier).setFilter(Filter.glutenFree, isChecked);
               },
             title: Text('Gluten-Free', style: Theme.of(context).textTheme.titleLarge!.copyWith(
               color: Theme.of(context).colorScheme.onBackground
@@ -60,15 +29,14 @@ class _FiltersPageState extends ConsumerState<FiltersPage> {
                 style: Theme.of(context).textTheme.labelMedium!.copyWith(
                   color: Theme.of(context).colorScheme.onBackground ),
             ),
-          activeColor: Theme.of(context).colorScheme.tertiary,
+              activeColor: Theme.of(context).colorScheme.tertiary,
               contentPadding: const EdgeInsets.only(left: 34, right: 22),
             ),
-            SwitchListTile(value: _lactoseFreeFilterSet,
+            SwitchListTile(
+              value: activeFilters[Filter.lactoseFree]!,
               onChanged: (isChecked) {
-                setState(() {
-                  _lactoseFreeFilterSet = isChecked;
-                });
-              },
+              ref.read(filtersProvider.notifier).setFilter(Filter.lactoseFree, isChecked);
+            },
               title: Text('Lactose-Free', style: Theme.of(context).textTheme.titleLarge!.copyWith(
                   color: Theme.of(context).colorScheme.onBackground
               ),
@@ -80,11 +48,10 @@ class _FiltersPageState extends ConsumerState<FiltersPage> {
               activeColor: Theme.of(context).colorScheme.tertiary,
               contentPadding: const EdgeInsets.only(left: 34, right: 22),
             ),
-            SwitchListTile(value: _vegetarianFilterSet,
+            SwitchListTile(
+              value: activeFilters[Filter.vegetarian]!,
               onChanged: (isChecked) {
-                setState(() {
-                  _vegetarianFilterSet = isChecked;
-                });
+                ref.read(filtersProvider.notifier).setFilter(Filter.vegetarian, isChecked);
               },
               title: Text('Vegetarian', style: Theme.of(context).textTheme.titleLarge!.copyWith(
                   color: Theme.of(context).colorScheme.onBackground
@@ -97,11 +64,10 @@ class _FiltersPageState extends ConsumerState<FiltersPage> {
               activeColor: Theme.of(context).colorScheme.tertiary,
               contentPadding: const EdgeInsets.only(left: 34, right: 22),
             ),
-            SwitchListTile(value: _veganFilterSet,
+            SwitchListTile(
+              value: activeFilters[Filter.vegan]!,
               onChanged: (isChecked) {
-                setState(() {
-                  _veganFilterSet = isChecked;
-                });
+                ref.read(filtersProvider.notifier).setFilter(Filter.vegan, isChecked);
               },
               title: Text('Vegan', style: Theme.of(context).textTheme.titleLarge!.copyWith(
                   color: Theme.of(context).colorScheme.onBackground
@@ -116,7 +82,6 @@ class _FiltersPageState extends ConsumerState<FiltersPage> {
             ),
           ],
         ),
-      ),
-    );
+      );
   }
 }
